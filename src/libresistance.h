@@ -50,17 +50,3 @@ float calc_resistance(int count, char conn, float *arrayIn)
 	
 	return -1;
 }
-
-int main()
-{
-	float my_array[] = {1, 23};
-	
-
-	char s;
-	s = 'S';
-		
-	calc_resistance(2, s, my_array);	
-
-	printf("Hello world\n");
-	return 0;
-}
