@@ -4,34 +4,56 @@ Grupp 116
 linUM lab 6 
 */
 #include <stdio.h>
+#include <stdlib.h>
 #include "libpower.h"
 #include "libcomponent.h"
 #include "libresistance.h"
 
 int main()
 {
-	float volt, res;
-	int component_count, x;
-	char conn;
-	// create arrays needed for resistance calcs
+	float volt;
+	int component_count;
+	char conn[2];
 
-
-	printf("\nAnge spänningskälla i V: ");
+	printf("Ange spänningskälla i V: ");
 	scanf("%f", &volt);
-	printf("\nAnge koppling[S | P]: ");
-	scanf("%c", &conn);
-	printf("\nAntal komponenter: ");
-	scanf("%i", &component_count);
+  //printf("Du angav %.2f\n", volt);
+	printf("Ange koppling[S | P]: ");
+	scanf("%s", conn);
+  //printf("Du angav %c\n", conn[0]);
+	printf("Antal komponenter: ");
+	scanf("%d", &component_count);
+  //printf("Du angav %d\n", component_count);
 
-	for (x = 1; x < component_count; x++)
+  float *resistors = malloc(component_count * sizeof(float));
+ 
+	for (int i = 0; i < component_count; i++)
 	{
-		printf("\n %iKomponent ", x ," i ohm: ");
-		//Add value to array
+		printf("Ange värdet för komponent nr %d i ohm: ", i + 1);
+    scanf("%f", &resistors[i]);
 	}
+  //printf("Du angav");
+  //for (int i = 0; i < component_count; i++)
+  //{
+  //  printf(" %.2f", resistors[i]);
+  //}
 
-	printf("\nErsättningsresistans: "); //use function calc_resistance 
-	printf("\nEffekt: %f", calc_power_r(volt,res));
-	printf("\nErsättningsresistanser i E12-serien kopplade i serie: "); //use function e_resistance
+  float res = calc_resistance(component_count, conn[0], resistors);
+	printf("\nErsättningsresistans: %.0f", res);
+
+	printf("\nEffekt: %.2f", calc_power_r(volt, res));
+ 
+  float *E12_resistors = malloc(MAX_CALCULATED_E12_RESISTORS * sizeof(float));
+  const int num_E12_resistors = e_resistance(res, E12_resistors);
+	printf("\nErsättningsresistanser i E12-serien kopplade i serie: ");
+  for (int i = 0; i < num_E12_resistors; i++)
+  {
+    printf(" %.0f", E12_resistors[i]);
+  }
+  printf("\n");
+
+  free(resistors);
+  free(E12_resistors);
 
 	return 0;
 }

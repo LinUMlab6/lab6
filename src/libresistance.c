@@ -16,7 +16,7 @@ float calc_resistance(int count, char conn, float *array)
 	double sumResistance = 0;
 	/*Checks that count is greater than 0.
 	  Checks that the array is not a nullpointer*/
-	if(count < 0 | array == 0)
+	if((count < 0) | (array == 0))
 	{
 		return -1;
 	}
