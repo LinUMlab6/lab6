@@ -1,50 +1,68 @@
-
 /*
-Oskar Hällbom
-19881224-1936
+Filip Wallin, Oskar Hallbom, Anders Ruberg
 Grupp 116
-2015-11-24
-linum labb 6
+linUM lab 6 
 */
-
-
 #include <stdio.h>
- 
+#include <stdlib.h>
+#include "libpower.h"
+#include "libcomponent.h"
+#include "libresistance.h"
 
-float calc_resistance(int count, char conn, float *array)
+int main()
 {
-	double sumResistance = 0;
-	/*Checks that count is greater than 0.
-	  Checks that the array is not a nullpointer*/
-	if((count < 0) | (array == 0))
-	{
-		return -1;
-	}
-	/*Calculates resistance if the components are in parallel.*/
-	if(conn == 'P')
-	{
-		int x;
-		for (x = 0; x< count; x++)
-		{
-			if(array[x] == 0)
-			{
-				return 0;	
-			}
-			sumResistance += (1/array[x]);
-		}
-		return sumResistance;
-	}
+	float volt;
+	int component_count;
+	char conn[2];
 
-	/*Calculates resistance if the components are in a series*/
-	else if(conn == 'S'){
-		int x;
-		for (x = 0; x< count; x++){
-			sumResistance += array[x];
-		}
-		return sumResistance;
+	printf("Ange spänningskälla i V: ");
+	scanf("%f", &volt);
+  //printf("Du angav %.2f\n", volt);
+	printf("Ange koppling[S | P]: ");
+	scanf("%s", conn);
+  //printf("Du angav %c\n", conn[0]);
+	printf("Antal komponenter: ");
+	scanf("%d", &component_count);
+  //printf("Du angav %d\n", component_count);
+
+  float *resistors = malloc(component_count * sizeof(float));
+ 
+	for (int i = 0; i < component_count; i++)
+	{
+		printf("Ange värdet för komponent nr %d i ohm: ", i + 1);
+    scanf("%f", &resistors[i]);
+	}
+  //printf("Du angav");
+  //for (int i = 0; i < component_count; i++)
+  //{
+  //  printf(" %.2f", resistors[i]);
+  //}
+
+  float res = calc_resistance(component_count, conn[0], resistors);
+
+
+//Checks that the inputs are correct by looking if the returned resistance and input voltage are greater than 0;
+	
+  	if(res > 0 && volt > 0){
+		printf("\nErsättningsresistans: %.0f", res);
+
+
+		printf("\nEffekt: %.2f", calc_power_r(volt, res));
+ 
+	  float *E12_resistors = malloc(MAX_CALCULATED_E12_RESISTORS * sizeof(float));
+	  const int num_E12_resistors = e_resistance(res, E12_resistors);
+		printf("\nErsättningsresistanser i E12-serien kopplade i serie: ");
+	  for (int i = 0; i < num_E12_resistors; i++)
+	  {
+	    printf(" %.0f", E12_resistors[i]);
+	  }
+	  printf("\n");
+
+	  free(resistors);
+	  free(E12_resistors);
 	}
 	else{
-	return -1;
+		printf("Du har angivit ogiltiga värden, programmet avslutas.\n");
+		return 0;
 	}
-
 }
