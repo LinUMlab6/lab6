@@ -39,21 +39,30 @@ int main()
   //}
 
   float res = calc_resistance(component_count, conn[0], resistors);
-	printf("\nErsättningsresistans: %.0f", res);
 
-	printf("\nEffekt: %.2f", calc_power_r(volt, res));
+
+//Checks that the inputs are correct by looking if the returned resistance and input voltage are greater than 0;
+	
+  	if(res > 0 && volt > 0){
+		printf("\nErsättningsresistans: %.0f", res);
+
+
+		printf("\nEffekt: %.2f", calc_power_r(volt, res));
  
-  float *E12_resistors = malloc(MAX_CALCULATED_E12_RESISTORS * sizeof(float));
-  const int num_E12_resistors = e_resistance(res, E12_resistors);
-	printf("\nErsättningsresistanser i E12-serien kopplade i serie: ");
-  for (int i = 0; i < num_E12_resistors; i++)
-  {
-    printf(" %.0f", E12_resistors[i]);
-  }
-  printf("\n");
+	  float *E12_resistors = malloc(MAX_CALCULATED_E12_RESISTORS * sizeof(float));
+	  const int num_E12_resistors = e_resistance(res, E12_resistors);
+		printf("\nErsättningsresistanser i E12-serien kopplade i serie: ");
+	  for (int i = 0; i < num_E12_resistors; i++)
+	  {
+	    printf(" %.0f", E12_resistors[i]);
+	  }
+	  printf("\n");
 
-  free(resistors);
-  free(E12_resistors);
-
-	return 0;
+	  free(resistors);
+	  free(E12_resistors);
+	}
+	else{
+		printf("Du har angivit ogiltiga värden, programmet avslutas.\n");
+		return 0;
+	}
 }
