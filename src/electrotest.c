@@ -5,6 +5,7 @@ linUM lab 6
 */
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "libpower.h"
 #include "libcomponent.h"
 #include "libresistance.h"
@@ -30,7 +31,7 @@ int main()
 	for (int i = 0; i < component_count; i++)
 	{
 		printf("Ange värdet för komponent nr %d i ohm: ", i + 1);
-    scanf("%f", &resistors[i]);
+    		scanf("%f", &resistors[i]);
 	}
   //printf("Du angav");
   //for (int i = 0; i < component_count; i++)
