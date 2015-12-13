@@ -9,6 +9,7 @@ linum labb 6
 
 
 #include <stdio.h>
+
  
 
 float calc_resistance(int count, char conn, float *array)
@@ -31,7 +32,7 @@ float calc_resistance(int count, char conn, float *array)
 				return 0;	
 			}
 			
-	/*Checks if any of the components in the array are negative*/
+			/*Checks if any of the components in the array are negative*/
 			if(array[x] < 0){
 				return -1;
 			}
@@ -50,7 +51,6 @@ float calc_resistance(int count, char conn, float *array)
 			if(array[x] < 0){
 				return -1;
 			}
-
 			sumResistance += array[x];
 		}
 		return sumResistance;
