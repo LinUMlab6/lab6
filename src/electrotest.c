@@ -43,7 +43,7 @@ int main()
 
 //Checks that the inputs are correct by looking if the returned resistance and input voltage are greater than 0;
 	
-  	if(res > 0 && volt > 0){
+  	if(volt >= 0 && res > 0){
 		printf("\nErsättningsresistans: %.0f", res);
 
 
@@ -61,6 +61,13 @@ int main()
 	  free(resistors);
 	  free(E12_resistors);
 	}
+	
+	else if(res == 0){
+		printf("\nDen resulterande resistansen av inmatade komponenter är 0.\n");
+		printf("Ersättningsresistanser kan därmed ej räknas ut.\n\n");
+		return 0;
+	}
+
 	else{
 		printf("Du har angivit ogiltiga värden, programmet avslutas.\n");
 		return 0;
