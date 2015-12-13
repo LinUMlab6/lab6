@@ -32,7 +32,7 @@ float calc_resistance(int count, char conn, float *array)
 			}
 			
 	/*Checks if any of the components in the array are negative*/
-			if(1/array[x] < 0){
+			if(array[x] < 0){
 				return -1;
 			}
 			sumResistance += (1/array[x]);
@@ -47,7 +47,7 @@ float calc_resistance(int count, char conn, float *array)
 		for (x = 0; x< count; x++){
 			
 			/*Checks if any of the components in the array are negative*/
-			if(1/array[x] < 0){
+			if(array[x] < 0){
 				return -1;
 			}
 
