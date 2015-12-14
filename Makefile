@@ -2,6 +2,10 @@ CC = gcc
 CFLAGS = -Wall -std=c99
 LIBS = -lm
 
+prefix=/usr
+LIBPATH=$(prefix)/lib
+BINPATH=$(prefix)/bin
+LIBINST=$(LDIR)/libcomponent.so $(LDIR)/libpower.so $(LDIR)/libresistance.so
 SDIR=src
 ODIR=obj
 LDIR=lib
@@ -14,7 +18,7 @@ MKDIR_P = mkdir -p
 all: lib electrotest
 
 electrotest: $(SDIR)/electrotest.c
-	$(CC) $(CFLAGS) -o electrotest $(SDIR)/electrotest.c -L$(LDIR) -lcomponent -lpower -lresistance -Wl,-rpath,$(LDIR)
+	$(CC) $(CFLAGS) -o electrotest $(SDIR)/electrotest.c -L$(LDIR) -lcomponent -lpower -lresistance -Wl,-rpath,$(LIBPATH)
 
 lib: dirs libcomponent.so libpower.so libresistance.so
 
@@ -42,6 +46,14 @@ libresistance.so: $(SDIR)/libresistance.c $(SDIR)/libresistance.h
 test: libcomponent_test
 	./libcomponent_test
 
+install: electrotest
+	install $(LIBINST) $(LIBPATH)
+	install electrotest $(BINPATH)
+
+uninstall:
+	$(RM) $(LIBPATH)/libpower.so $(LIBPATH)/libresistance.so $(LIBPATH)/libcomponent.so
+	$(RM) $(BINPATH)/electrotest
+	
 clean:
 	rm -f $(ODIR)/*.o $(LDIR)/*.so electrotest libcomponent_test
 
