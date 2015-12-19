@@ -1,7 +1,7 @@
 #include "CUnit/CUnit.h"
 #include "CUnit/Basic.h"
 
-#include "../libcomponent.h"
+#include "libcomponent.h"
 
 #include <stdio.h>  // for printf
 
