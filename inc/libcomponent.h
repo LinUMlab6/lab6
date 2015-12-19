@@ -13,11 +13,6 @@
 // The granularity to use when comparing float numbers
 #define GRANULARITY 0.01
 
-#define FLOAT_EQUAL(x,y) \
-do { \
- fabs((double)(x) - (y)) <= fabs((double)(GRANULARITY)) \
-} while (0)
-
 extern int e_resistance(float orig_resistance, float *res_array);
 extern int power_of_ten(float num);
 extern float find_nearest_E12(float resistance);
