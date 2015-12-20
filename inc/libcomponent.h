@@ -15,6 +15,6 @@
 
 extern int e_resistance(float orig_resistance, float *res_array);
 extern int power_of_ten(float num);
-extern float find_nearest_E12(float resistance);
+extern float find_nearest_E12(float resistance, int *power_of_ten);
 
 #endif

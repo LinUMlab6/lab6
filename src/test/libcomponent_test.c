@@ -5,9 +5,9 @@
 
 #include <stdio.h>  // for printf
 
-void find_nearest_E12_test(float resistance_value, float expected_value)
+void find_nearest_E12_test(float resistance_value, int decade, float expected_value)
 {
-  float actual_value = find_nearest_E12(resistance_value);
+  float actual_value = find_nearest_E12(resistance_value, &decade);
 
   printf("\nfind_nearest_E12_test::resistance: %.3f, actual value: %.3f, expected value: %.3f\n", resistance_value, actual_value, expected_value);
   //CU_ASSERT_STRING_EQUAL(actual_s, expected_s);
@@ -52,8 +52,8 @@ void libcomponent_tests(void) {
   float E12_values_test2[MAX_CALCULATED_E12_RESISTORS] = {1200.0, 0, 0};
   libcomponent_test(1200.0, E12_values_test2, 1);
   
-  float E12_values_test3[MAX_CALCULATED_E12_RESISTORS] = {1000.0, 0, 0};
-  libcomponent_test(1000.0, E12_values_test3, 1);
+  float E12_values_test3[MAX_CALCULATED_E12_RESISTORS] = {820.0, 180.0, 0};
+  libcomponent_test(1000.0, E12_values_test3, 2);
   
   float E12_values_test4[MAX_CALCULATED_E12_RESISTORS] = {120.0, 18.0, 1.8};
   libcomponent_test(139.80, E12_values_test4, 3);
@@ -63,6 +63,9 @@ void libcomponent_tests(void) {
   
   float E12_values_test6[MAX_CALCULATED_E12_RESISTORS] = {1200.0, 270.0, 27.0};
   libcomponent_test(1498.0, E12_values_test6, 3);
+  
+  float E12_values_test7[MAX_CALCULATED_E12_RESISTORS] = {1200.0, 100.0, 0};
+  libcomponent_test(1300.0, E12_values_test7, 2);
 }
 
 void power_of_ten_tests(void) {
@@ -70,51 +73,73 @@ void power_of_ten_tests(void) {
   CU_ASSERT_EQUAL(power_of_ten(139.8), 2);
   CU_ASSERT_EQUAL(power_of_ten(13.98), 1);
   CU_ASSERT_EQUAL(power_of_ten(1.398), 0);
+  CU_ASSERT_EQUAL(power_of_ten(100.0), 1);
 }
 
 void find_nearest_E12_tests(void) {
   float expected_value;
   float resistance;
+  int decade;
 
   resistance = 1398;
   expected_value = 1200;
-  find_nearest_E12_test(resistance, expected_value);
+  decade = power_of_ten(resistance);
+  find_nearest_E12_test(resistance, decade, expected_value);
 
   resistance = 139.8;
   expected_value = 120.0;
-  find_nearest_E12_test(resistance, expected_value);
+  decade = power_of_ten(resistance);
+  find_nearest_E12_test(resistance, decade, expected_value);
 
   resistance = 13.98;
   expected_value = 12.00;
-  find_nearest_E12_test(resistance, expected_value);
+  decade = power_of_ten(resistance);
+  find_nearest_E12_test(resistance, decade, expected_value);
 
   resistance = 1.398;
   expected_value = 1.20;
-  find_nearest_E12_test(resistance, expected_value);
+  decade = power_of_ten(resistance);
+  find_nearest_E12_test(resistance, decade, expected_value);
   
   resistance = 1000.0;
-  expected_value = 1000.0;
-  find_nearest_E12_test(resistance, expected_value);
+  expected_value = 820.0;
+  decade = power_of_ten(resistance);
+  find_nearest_E12_test(resistance, decade, expected_value);
   
   resistance = 10.0;
-  expected_value = 10.0;
-  find_nearest_E12_test(resistance, expected_value);
+  expected_value = 8.20;
+  decade = power_of_ten(resistance);
+  find_nearest_E12_test(resistance, decade, expected_value);
   
   resistance = 1.0;
   expected_value = 1.0;
-  find_nearest_E12_test(resistance, expected_value);
+  decade = power_of_ten(resistance);
+  find_nearest_E12_test(resistance, decade, expected_value);
 
   resistance = 1200.0;
   expected_value = 1200.0;
-  find_nearest_E12_test(resistance, expected_value);
+  decade = power_of_ten(resistance);
+  find_nearest_E12_test(resistance, decade, expected_value);
   
   resistance = 0.0;
   expected_value = 0.0;
-  find_nearest_E12_test(resistance, expected_value);
+  decade = power_of_ten(resistance);
+  find_nearest_E12_test(resistance, decade, expected_value);
   
   resistance = 1.8;
   expected_value = 1.8;
-  find_nearest_E12_test(resistance, expected_value);
+  decade = power_of_ten(resistance);
+  find_nearest_E12_test(resistance, decade, expected_value);
+  
+  resistance = 100;
+  expected_value = 100;
+  decade = power_of_ten(1300);
+  find_nearest_E12_test(resistance, decade, expected_value);
+  
+  resistance = 100;
+  expected_value = 82;
+  decade = power_of_ten(100);
+  find_nearest_E12_test(resistance, decade, expected_value);
 
 }
 
