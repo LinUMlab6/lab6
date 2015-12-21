@@ -24,7 +24,7 @@ float calc_resistance(int count, char conn, float *array)
 	/*Calculates resistance if the components are in parallel.*/
 	if(conn == 'P')
 	{
-		int x;
+    int x;
 		for (x = 0; x< count; x++)
 		{
 			if(array[x] == 0)
@@ -36,10 +36,10 @@ float calc_resistance(int count, char conn, float *array)
 			if(array[x] < 0){
 				return -1;
 			}
-			sumResistance += (1/array[x]);
+			sumResistance += (1.0/array[x]);
 
 		}
-		return sumResistance;
+		return (1.0/sumResistance);
 	}
 
 	/*Calculates resistance if the components are in a series*/
